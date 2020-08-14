@@ -70,7 +70,7 @@ class AccessoryController extends Controller
             'stock' => $request->get('Stock'),
             'photo' => $photo                  
         ];        
-
+        //return response()->json($accessories);
         if(accessory::insert($accessories))
             return redirect('accessories')->with('success','Accessory added successfuly');
         else    

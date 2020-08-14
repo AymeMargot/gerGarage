@@ -33,7 +33,7 @@ class LoadDataController extends Controller
 
     public function load(){
 
-    /*        $data=[
+          $data=[
             'timeStart'=>date("H:m:s"),
             'timeEnd'=>date("H:m:s"),
             'maxBooking'=>2,
@@ -192,9 +192,11 @@ class LoadDataController extends Controller
         foreach($data as $dat){
             Staff::insert($dat);
         }
-        */
+        
       //  User::find(3)->assignRole(1);
       //  User::find(2)->assignRole(1);
+      */
+      $data = [];
       $array = ['Diesel','Petrol','Hybrid','Electric','Other'];
       for($i = 0;$i < count($array) ; $i++){
           $name = $array[$i];     
@@ -209,6 +211,14 @@ class LoadDataController extends Controller
       foreach($data as $dat){
           Engine::insert($dat);
       }
+      
+      $data=[
+        'name'=>'cashier',
+        'label'=>'',
+        'created_at'=>now()->toDateTimeString(),
+        'updated_at'=>now()->toDateTimeString(),
+    ];
+    Role::insert($data);
       
     }
 

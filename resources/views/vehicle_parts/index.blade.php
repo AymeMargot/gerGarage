@@ -102,11 +102,11 @@
 						<div class="row">
 							<div class="col-sm">
 								<label>Stock</label>
-								<input type="text" name="Stock" class="form-control" required>
+								<input type="number" value="1" min="1" max="100000" step="10" name="Stock" id="Stock" class="form-control" required/>
 							</div>
 							<div class="col-sm">
 								<label>Price</label>
-								<input type="text" name="Price" class="form-control" required>
+								<input type="number" value="0.0" data-decimals="2" min="0" max="1000000" step="0.1" name="Price" id="Price" class="form-control" required/>
 							</div>
 						</div>
 						<div class="form-group">
@@ -160,11 +160,11 @@
 						<div class="row">
 							<div class="col-sm">
 								<label>Stock</label>
-								<input type="text" name="Stock" id="Stock" class="form-control" required>
+								<input type="number" value="1" min="1" max="100000" step="10" name="Stock" id="Stock" class="form-control" required/>
 							</div>
 							<div class="col-sm">
 								<label>Price</label>
-								<input type="text" name="Price" id="Price" class="form-control" required>
+								<input type="number" value="0.0" data-decimals="2" min="0" max="1000000" step="0.1" name="Price" id="Price" class="form-control" required/>
 							</div>
 						</div>
 						<div class="form-group">

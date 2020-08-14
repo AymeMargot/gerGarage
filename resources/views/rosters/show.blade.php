@@ -40,10 +40,13 @@
                     <label>{{ $users->name }} {{ $users->lastname }}</label>
                 </div>
                 <div class="col-sm-4">
+                    <label class="text-danger">BirthDay</label>
+                    <label>{{ $users->birthday }}</label>
+                </div>
+                <div class="col-sm-4">
                     <label class="text-danger">Address</label>
                     <label>{{ $users->address }}</label>
                 </div>
-                <div class="col-sm-4"></div>
             </div>
             <div class="row">
                 <div class="col-sm-4">
@@ -69,9 +72,11 @@
                 <th>Date</th>
                 <th>From Time</th>
                 <th>To Time</th>
-                <th>Workload</th>
-                <th>Booking #</th>
+                <th>Tasks</th>
+                <th>Book #</th>
+                <th>Vehicle</th>
                 <th>Description</th>
+                <th>Customer</th>
             </tr>
         </thead>        
         @foreach($rosters as $roster)
@@ -80,8 +85,10 @@
             <td>{{$roster->fromTime}}</td>
             <td>{{$roster->toTime}}</td>
             <td>{{$roster->workload}}</td>
-            <td>{{$roster->book}}</td>
-            <td>{{$roster->description}}</td>
+            <td>{{$roster->book_id}}</td>
+            <td>{{$roster->vehicle_type_name}}  {{$roster->vehicle_name}}  {{$roster->engine_name}}</td>
+            <td>{{$roster->book_description}}</td>
+            <td>{{$roster->customer}} {{$roster->customer_email}}</td>
         </tr>
         @endforeach
     </table>

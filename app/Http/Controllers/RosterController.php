@@ -6,6 +6,7 @@ use App\Roster;
 use App\Staff;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class RosterController extends Controller
 {
@@ -106,12 +107,17 @@ class RosterController extends Controller
     public function show()
     {        
         $data['users'] = Staff::where('id','=',auth()->id())->first();
-        $data['rosters'] = Roster::select('rosters.*', 'bookings.id as book', 'bookings.description', 'bookings.status')
+        $data['rosters'] = DB::table('rosters_views')
+                            ->where('staff_id','=',auth()->id())->get();
+        //DB::table('rosters_views')
+          //                  ->where('rosters.staff_id', '=', auth()->id());
+      /*  $data['rosters'] = Roster::select('rosters.*', 'bookings.id as book', 'bookings.description', 'bookings.status')
             ->leftJoin('bookings', 'rosters.id', '=', 'bookings.roster_id')
             ->where('rosters.staff_id', '=', auth()->id())
             ->get();
+    */
         $data['staff'] = Staff::all();
-        //return Response()->json($data); 
+       // return Response()->json($data); 
         return view('rosters.show', $data);
     }
 
@@ -122,11 +128,13 @@ class RosterController extends Controller
         else
             $user = auth()->id();
         $data['users'] = Staff::where('id','=',$user)->first();
-        $data['rosters'] = Roster::select('rosters.*', 'bookings.id as book', 'bookings.description', 'bookings.status')
+        $data['rosters'] = DB::table('rosters_views')
+                            ->where('staff_id','=',$user)->get();
+      /*  $data['rosters'] = Roster::select('rosters.*', 'bookings.id as book', 'bookings.description', 'bookings.status')
             ->leftJoin('bookings', 'rosters.id', '=', 'bookings.roster_id')
             ->where('rosters.staff_id', '=', $user)
             ->get();
-
+*/
       //  return Response()->json($data); 
         $data['staff'] = Staff::all();
         return view('rosters.show', $data);

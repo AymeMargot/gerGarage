@@ -44,8 +44,7 @@
           @endif
           @endauth
           @endif          
-       <!--   <li class="active"><a href="/loadData">load</a></li> -->
-                 
+       <!--   <li class="active"><a href="/loadData">load</a></li> -->                 
           <li class="active"><a href="/home">Home</a></li>
           <li><a href="/services">Services</a></li>
           <li><a href="/listAccessories">Accesories</a></li>
