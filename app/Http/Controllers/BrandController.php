@@ -55,8 +55,7 @@ class BrandController extends Controller
     {        
         $photo = "";
         if($request->hasFile('Photo')){
-            $make['photo']=$request->file('Photo')->store('makesUploads','public');
-            $photo = $request->file('Photo');            
+            $photo = $request->file('Photo')->store('makesUploads','public');                     
         }
 
         $make = [
@@ -107,8 +106,7 @@ class BrandController extends Controller
         if($found){           
             if($request->hasFile('Photo')){
                 Storage::delete('public/'.$found->photo);
-                $make['photo']=$request->file('Photo')->store('makesUploads','public');
-                $photo = $request->file('Photo');  
+                $photo = $request->file('Photo')->store('makesUploads','public');                
             }
 
             $make = [

@@ -43,9 +43,8 @@ class SupplyController extends Controller
     {   
         $photo = "";       
         if($request->hasFile('Photo')){
-            Storage::delete('public/'.$request->get('Photo'));
-            $supplies['photo']=$request->file('Photo')->store('suppliesUploads','public');
-            $photo = $request->file('Photo'); 
+           // Storage::delete('public/'.$request->get('Photo'));
+            $photo = $request->file('Photo')->store('suppliesUploads','public');             
         }
 
         $supplies = [
@@ -100,8 +99,7 @@ class SupplyController extends Controller
 
             if($request->hasFile('Photo')){
                 Storage::delete('public/'.$found->photo);
-                $supplies['photo']=$request->file('Photo')->store('suppliesUploads','public');
-                $photo = $request->file('Photo'); 
+                $photo = $request->file('Photo')->store('suppliesUploads','public');                
             }
 
             $supplies = [

@@ -57,12 +57,9 @@ class AccessoryController extends Controller
     public function store(Request $request)
     {      
         $photo="";
-        if($request->hasFile('Photo')){
-            Storage::delete('public/'.$request->get('Photo'));
-            $accessories['photo']=$request->file('Photo')->store('accessoriesUploads','public');
-            $photo = $request->file('Photo'); 
+        if($request->hasFile('Photo')){          
+            $photo=$request->file('Photo')->store('accessoriesUploads','public');            
         }
-
         $accessories = [
             'user_id' => auth()->id(),
             'name' => $request->get('Name'),
@@ -122,8 +119,8 @@ class AccessoryController extends Controller
         if($found){           
             if($request->hasFile('Photo')){
                 Storage::delete('public/'.$found->photo);
-                $accessories['photo']=$request->file('Photo')->store('accessoriesUploads','public');
-                $photo = $request->file('Photo'); 
+                $photo = $request->file('Photo')->store('accessoriesUploads','public');
+              
             }
 
             $accessories = [
