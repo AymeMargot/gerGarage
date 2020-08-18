@@ -33,6 +33,7 @@ Route::get('/about', function () {
 //================== Routes =============================================================================
 Route::resource('/messages', 'MessageController');
 Route::resource('/bookings', 'BookingController');
+Route::get('/transfer', 'BookingController@transfer');
 Route::get('/bookingSearch', 'BookingController@search');
 Route::get('/bookings/delete/{id}', ['as' => 'id', 'uses' => 'BookingController@destroyByuser']);
 Route::get('/rosterSearch', 'RosterController@search');
@@ -74,34 +75,11 @@ Route::get('/singleAccessory/{id}', ['as' => 'id', 'uses' => 'AccessoryControlle
 
 
 Route::resource('/vehicles', 'VehicleController');
-
-
-
-//Route::get('/invoices/create/{id}', ['as' => 'id', 'uses' => 'InvoiceController@create']);
-//Route::get('/invoices/edit/{id}', ['as' => 'id', 'uses' => 'InvoiceController@edit']);
-
-//Route::resource('/invoices_supplies', 'InvoiceSupplyController');
-//Route::get('/invoice_supplies/create/{id}', ['as' => 'id', 'uses' => 'InvoiceSupplyController@create']);
-//Route::get('/invoice_supplies/edit/{id}', ['as' => 'id', 'uses' => 'InvoiceSupplyController@edit']);
-//Route::post('/invoice_supplies/save/{id}', ['as' => 'id', 'uses' => 'InvoiceSupplyController@store']);
-//Route::get('/invoice_supplies/delete/{id}', ['as' => 'id', 'uses' => 'InvoiceSupplyController@destroy',
-//]);
-//Route::resource('/invoices_supplies', 'InvoiceSupplyController');
-//('/invoices/save', ['as' => 'id', 'uses' => 'InvoiceController@store']);
-//Route::post('/invoices/create', 'InvoiceController@store');
-//Route::post('/invoices/edit', 'InvoiceController@store');
-
-//Route::post('/invoices/save','InvoiceController@store');
-//Route::get('/invoices', 'InvoiceController@index');
-
 Route::get('/dashboard', function () {
     return view('dashboard.index');
 });
-//Route::get('/garage', 'HomeController@index')->name('garage')->middleware('auth');
-//Auth::routes();
+
 
 Auth::routes();
-//Route::get('login','Auth.RegisterController');
-//Route::get('register', [ 'as' => 'register', 'uses' => 'RegisterController']);
 
 Route::get('/home', 'ServiceController@listPublic')->name('home');

@@ -40,9 +40,9 @@
 					<th>Vehicle</th>
 					<th>Description</th>
 					<th>Status </th>
-					<th>Appointment #</th>
-					<th>Appointment Date</th>
-					<th>Actions</th>
+					<th>App. #</th>
+					<th>App. Date</th>
+					<th>A c t i o n s</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -58,11 +58,14 @@
 					<td>{{ $book->roster_id}}</td>
 					<td>{{ $book->roster_date}}</td>
 					<td>
+						<a data-id="{{$book->id}}" data-customer="{{$book->customer}}" data-date="{{$book->date}}" data-roster="{{$book->roster_id}}" data-target="#transferBooking" type="button" class="edit" data-toggle="modal">
+							<i class="fa fa-arrow-circle-o-left" data-toggle="tooltip" title="Transfer" style="font-size:36px"></i></a>
 						<!-- button edit-->
 						<a data-id="{{$book->id}}" id="#btnedit" data-type_id="{{$book->bookingtype_id}}" data-type="{{$book->bookingtype}}" data-roster_id="{{$book->roster_id}}" data-mechanic="{{$book->mechanic}}" data-status="{{$book->status}}" data-diagnosis="{{$book->diagnosis}}" data-description="{{$book->description}}" data-target="#editBooking" type="button" class="edit" data-toggle="modal">
 							<i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 						<!-- end edit -->
 						<a data-id="{{$book->id}}" data-name="{{$book->customer}}" type="button" href="#deleteBooking" class="delete" data-toggle="modal"><i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+
 					</td>
 				</tr>
 				@endforeach
@@ -89,13 +92,27 @@
 				</div>
 				<div class="modal-body">
 					<div class="form-group">
-						<label>Booking Type</label>
-						<select name="bookingtype_id" id="bookingtype_id" class="dropdown form-control">
-							@foreach($booking_types as $type)
-							<option value="{{  $type->id }}" class="dropdown-item">{{ $type->name }}</option>
-							@endforeach
-						</select>
-						<input type="hidden" value="" name="booking_id" id="booking_id">
+						<div class="row">
+							<div class="col-sm">
+								<label>Booking Type</label>
+								<select name="bookingtype_id" id="bookingtype_id" class="dropdown form-control">
+									@foreach($booking_types as $type)
+									<option value="{{  $type->id }}" class="dropdown-item">{{ $type->name }}</option>
+									@endforeach
+								</select>
+							</div>
+							<div class="col-sm">
+								<label>Status</label>
+								<select name="status_id" id="status_id" class="dropdown form-control" required>
+									<option value="BOOKED">BOOKED</option>
+									<option value="INSERVICE">INSERVICE</option>
+									<option value="FIXED">FIXED</option>
+									<option value="COLLECTED">COLLECTED</option>
+									<option value="UNREPAIRABLE">UNREPAIRABLE</option>
+								</select>
+							</div>
+							<input type="hidden" value="" name="booking_id" id="booking_id">
+						</div>
 					</div>
 					<div class="form-group">
 						<label>Diagnosis</label>
@@ -105,30 +122,69 @@
 						<label>Description</label>
 						<input type="text" name="Description" id="Description" class="form-control" required>
 					</div>
+				</div>
+				<div class="modal-footer btn btn-light">
+					<input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
+					<input type="submit" class="btn btn-primary" value="Edit">
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<!-- Transfer Modal HTML -->
+<div id="transferBooking" class="modal fade">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<form action="{{ url('/transfer') }}" type="get">
+				@csrf
+				{{ method_field('GET') }}
+				<div class="modal-header btn btn-primary">
+					<h4 class="modal-title">Tranfer Booking</h4>
+					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div class="row">
+						<div class="col-sm">
+							<label># Booking</label>
+							<input type="text" name="booking_id" id="booking_id" readonly class="form-control">
+						</div>
+						<div class="col-sm">
+							<label>Date</label>
+							<input type="text" name="Date" id="Date" readonly class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label>Customer</label>
+						<input type="text" name="Customer" id="Customer" readonly class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Mechanic</label>
+						<select name="roster_id" id="roster_id" disabled class="dropdown form-control" required>
+							@foreach($rosters as $roster)
+							<option value="{{  $roster->id }}" class="dropdown-item">{{ $roster->name }} {{ $roster->lastname }}</option>
+							@endforeach
+						</select>
+						
+					</div>
 					<div class="row">
 						<div class="col-sm">
 							<label>Roster</label>
-							<select name="roster_id" id="roster_id" class="dropdown form-control" required>
+							<select name="roster" id="roster" class="dropdown form-control" required>
 								@foreach($rosters as $roster)
-								<option value="{{  $roster->id }}" class="dropdown-item">{{ $roster->date }} {{ $roster->name }} {{ $roster->lastname }}</option>
+								<?php
+								$disabled = "";
+								if ($roster->workload > 3 || $roster->workload == 3)
+									$disabled = "disabled";
+								?>
+								<option {{ $disabled }} value="{{  $roster->id }}" class="dropdown-item">{{ $roster->date }} : {{ $roster->name }} {{ $roster->lastname }}</option>
 								@endforeach
-							</select>
-						</div>
-						<div class="col-sm">
-							<label>Status</label>
-							<select name="status_id" id="status_id" class="dropdown form-control" required>
-								<option value="BOOKED">BOOKED</option>
-								<option value="INSERVICE">INSERVICE</option>
-								<option value="FIXED">FIXED</option>
-								<option value="COLLECTED">COLLECTED</option>
-								<option value="UNREPAIRABLE">UNREPAIRABLE</option>
 							</select>
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer btn btn-light">
 					<input type="button" class="btn btn-secondary" data-dismiss="modal" value="Cancel">
-					<input type="submit" class="btn btn-primary" value="Edit">
+					<input type="submit" class="btn btn-primary" value="Transfer">
 				</div>
 			</form>
 		</div>
@@ -166,12 +222,11 @@
 		var id = $(event.relatedTarget).data().id
 		var type_id = $(event.relatedTarget).data().type_id
 		var roster_id = $(event.relatedTarget).data().roster_id
+		//alert(roster_id);
 		var status = $(event.relatedTarget).data().status
 		var diagnosis = $(event.relatedTarget).data().diagnosis
 		var description = $(event.relatedTarget).data().description
-		//	$("#mechanic_id").prop("selectedIndex", mechanic).val(mechanic_id);
-		//	$("#status").prop("selectedIndex", status).val(status);
-		//	$("#bookingtype_id").prop("selectedIndex", type).val(type_id);
+
 
 		var modal = $(this)
 		modal.find('.modal-title').text('Edit Booking')
@@ -183,12 +238,26 @@
 		modal.find('.modal-body #Description').val(description)
 	})
 	$('#deleteBooking').on('show.bs.modal', function(event) {
-			var id = $(event.relatedTarget).data().id
-			var name = $(event.relatedTarget).data().name
-			var modal = $(this)
-			name = '# ' + id + ' ' + name;
-			modal.find('.modal-body #booking_id').val(id)
-			modal.find('.modal-body #Name').val(name)
-		})
+		var id = $(event.relatedTarget).data().id
+		var name = $(event.relatedTarget).data().name
+		var modal = $(this)
+		name = '# ' + id + ' ' + name;
+		modal.find('.modal-body #booking_id').val(id)
+		modal.find('.modal-body #Name').val(name)
+
+	})
+	$('#transferBooking').on('show.bs.modal', function(event) {
+		var id = $(event.relatedTarget).data().id
+		var date = $(event.relatedTarget).data().date
+		var roster = $(event.relatedTarget).data().roster
+		var customer = $(event.relatedTarget).data().customer
+
+		var modal = $(this)
+		name = '# ' + id + ' ' + name;
+		modal.find('.modal-body #booking_id').val(id)
+		modal.find('.modal-body #roster_id').val(roster)
+		modal.find('.modal-body #Date').val(date)
+		modal.find('.modal-body #Customer').val(customer)
+	})
 </script>
 @endsection

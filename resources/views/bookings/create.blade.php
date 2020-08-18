@@ -4,7 +4,7 @@
 <br><br><br><br>
 <div class="container">
     <div class="row">
-        <div class="col-sm-6">
+        <div class="col-sm-5">
             <div class="card">
                 <h5 class="card-header info-color white-text text-left py-4"><strong>Book service</strong></h5>
                 <div class="card-body px-lg-5">
@@ -51,24 +51,24 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-6">
+        <div class="col-sm-7">
             <div class="card card bg-light text-primary border-primary">
                 <div class="card-body">
                     <h4 class="card-title">Last Book</h4>
-                    <table class="table table-hover">
-                        <thead class="bg-primary text-white">
-                            <tr >
+                    <table class="table table-hover border">
+                        <thead class="bg-primary text-white">                            
+                                <th> #</th>
                                 <th>Date</th>
                                 <th>Status</th>
                                 <th>Type Booking</th>
                                 <th>Vehicle</th>
                                 <th>Description</th>
-                                <th></th>
-                            </tr>
+                                <th></th>                           
                         </thead>
                         <tbody>
                             @foreach($bookings as $book)
                             <tr>
+                                <td><h1>{{ $book->id}}</h1></td>
                                 <td>{{ $book->date}}</td>
                                 <td>{{ $book->status}}</td>
                                 <td>{{ $book->bookingtype}}</td>
